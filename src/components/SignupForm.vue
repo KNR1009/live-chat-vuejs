@@ -24,6 +24,7 @@
 import axios from "axios";
 
 export default {
+  emits: ["redirectToChatRoom"],
   data() {
     return {
       name: "",
@@ -43,6 +44,9 @@ export default {
           password_confirmation: this.passwordConfirmation,
         });
         console.log({ res });
+        if (!this.error) {
+          this.$emit("redirectToChatRoom");
+        }
         return res;
       } catch (error) {
         this.error = "アカウントを登録できませんでした";
