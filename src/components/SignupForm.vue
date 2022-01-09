@@ -15,6 +15,7 @@
       placeholder="パスワード（確認用）"
       v-model="passwordConfirmation"
     />
+    <div class="error">{{ error }}</div>
     <button>登録する</button>
   </form>
 </template>
@@ -29,6 +30,7 @@ export default {
       email: "",
       password: "",
       passwordConfirmation: "",
+      error: null,
     };
   },
   methods: {
@@ -43,6 +45,7 @@ export default {
         console.log({ res });
         return res;
       } catch (error) {
+        this.error = "アカウントを登録できませんでした";
         console.log({ error });
       }
     },
