@@ -1,6 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Welcome from "../views/Welcome";
 import Chatroom from "../views/ChatRoom";
+import useValidate from "../auth/validate";
+
+// ナビゲーションガードの準備
+// eslint-disable-next-line no-unused-vars
+const requireAuth = async (to, from, next) => {
+  // ローカルストレージのセッションが有効かをチェック
+  const uid = window.localStorage.getItem("uid");
+  const client = window.localStorage.getItem("client");
+  const accessToken = window.localStorage.getItem("access-token");
+  if (!uid || !client || !accessToken) {
+    console.log("ログインしていません");
+    next({ name: "Welcome" });
+  }
+  await useValidate();
+  next();
+};
 
 const routes = [
   {
@@ -12,6 +28,7 @@ const routes = [
     path: "/chatroom",
     name: "Chatroom",
     component: Chatroom,
+    beforeEnter: requireAuth,
   },
 ];
 

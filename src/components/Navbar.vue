@@ -38,6 +38,7 @@ export default {
         window.localStorage.removeItem("uid");
         window.localStorage.removeItem("name");
 
+        this.$router.push({ name: "Welcome" });
         return res;
       } catch (error) {
         console.log({ error });
