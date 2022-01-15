@@ -18,11 +18,27 @@ const requireAuth = async (to, from, next) => {
   next();
 };
 
+// ログイン中はwelcomeページにアクセスできないようにする
+const noRequireAuth = async (to, from, next) => {
+  const uid = window.localStorage.getItem("uid");
+  const client = window.localStorage.getItem("client");
+  const accessToken = window.localStorage.getItem("access-token");
+
+  if (!uid && !client && !accessToken) {
+    next();
+    return;
+  }
+
+  await useValidate();
+  next({ name: "Chatroom" });
+};
+
 const routes = [
   {
     path: "/",
     name: "Welcome",
     component: Welcome,
+    beforeEnter: noRequireAuth,
   },
   {
     path: "/chatroom",
